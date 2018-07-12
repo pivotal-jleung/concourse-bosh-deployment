@@ -30,6 +30,23 @@ bosh -e $BOSH_ENVIRONMENT deploy -d concourse concourse.yml \
   --var db_persistent_disk_type=db \
   --var worker_vm_type=concourse \
   --var deployment_name=concourse
+
+bosh deploy -d concourse concourse.yml \
+  -l ../versions.yml \
+  --vars-store cluster-creds.yml \
+  -o operations/no-auth.yml \
+  -o operations/privileged-http.yml \
+  -o operations/privileged-https.yml \
+  -o operations/tls.yml \
+  -o operations/tls-vars.yml \
+  -o operations/worker-ephemeral-disk.yml \
+  --var network_name=pcf-subnet-158 \
+  --var web_vm_type=large.2 \
+  --var db_vm_type=large.2 \
+  --var db_persistent_disk_type=10GB \
+  --var worker_vm_type=large.2 \
+  --var deployment_name=concourse \
+  --var worker_ephemeral_disk=100GB_ephemeral_disk
 ```
 
 This should then result in a Concourse running and listening at
